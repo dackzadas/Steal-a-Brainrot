@@ -132,6 +132,9 @@ button{cursor:pointer;background:#ff7b00;color:black;font-weight:bold}
 <h1>Capture todos os <span>Brainrots</span></h1>
 <div class="count" id="count"></div>
 <div class="search"><input type="text" id="searchInput" placeholder="🔍 Buscar pet..."></div>
+<button onclick="copiarNomes()" style="margin-top:10px;padding:8px 12px;border-radius:10px;border:none;background:#ff7b00;color:black;cursor:pointer;">
+📋 Copiar nomes
+</button>
 </div>
 
 <div class="tabs" id="tabs"></div>
@@ -161,6 +164,23 @@ let currentCategory="Todos";
 let pets=JSON.parse(localStorage.getItem('pets'))||[];
 
 function toggleAdmin(){document.getElementById('adminModal').classList.toggle('active');}
+
+function copiarNomes(){
+    let search = document.getElementById('searchInput').value.toLowerCase();
+
+    let lista = pets
+    .filter(p =>
+        (currentCategory === 'Todos' || p.category === currentCategory) &&
+        p.name.toLowerCase().includes(search)
+    )
+    .map(p => p.name)
+    .join('\n');
+
+    if(!lista) return alert("Nenhum pet encontrado");
+
+    navigator.clipboard.writeText(lista);
+    alert("Nomes copiados!");
+}
 
 function login(){
 if(document.getElementById('password').value===ADMIN_PASSWORD){
