@@ -14,130 +14,114 @@ body{
 font-family:'Orbitron',sans-serif;
 color:white;
 background:url('https://upload.wikimedia.org/wikipedia/en/7/77/Steal_a_Brainrot_thumbnail.webp') center/cover no-repeat fixed;
+overflow-x:hidden;
 }
 
 body::before{
 content:"";
 position:fixed;
 width:100%;height:100%;
-background:linear-gradient(to bottom, rgba(0,0,0,0.85), rgba(0,0,0,0.95));
-z-index:-1;
+background:linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.92));
+z-index:-2;
 }
 
-header{
-display:flex;justify-content:space-between;align-items:center;
-padding:20px 30px;
-}
+/* partículas leves */
+.particles{position:fixed;width:100%;height:100%;pointer-events:none;z-index:-1}
+.particle{position:absolute;width:3px;height:3px;background:#ff7b00;border-radius:50%;opacity:0.5;animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh)}100%{transform:translateY(-10vh)}}
 
-.logo{
-font-size:20px;
-color:#ff7b00;
-}
+header{display:flex;justify-content:space-between;align-items:center;padding:20px 30px}
+.logo{font-size:20px;color:#ff7b00}
 
-.admin-btn{
-background:rgba(255,255,255,0.1);
-border:none;padding:8px 12px;border-radius:8px;color:white;cursor:pointer;
-}
+.admin-btn{background:rgba(255,255,255,0.1);border:none;padding:8px 12px;border-radius:10px;color:white;cursor:pointer;transition:0.3s}
+.admin-btn:hover{background:rgba(255,255,255,0.25);transform:scale(1.1)}
 
-.hero{
-text-align:center;
-padding:80px 20px 40px;
-}
-
-.hero h1{
-font-size:48px;
-font-weight:700;
-}
-
+.hero{text-align:center;padding:80px 20px 40px}
+.hero h1{font-size:48px;text-shadow:0 0 10px rgba(255,123,0,0.4)}
 .hero span{color:#ff7b00}
+.count{margin-top:10px;opacity:0.8}
 
-.count{
-margin-top:10px;
-opacity:0.8;
+.search{margin-top:20px}
+.search input{padding:10px 15px;border-radius:20px;border:none;width:250px;background:rgba(255,255,255,0.1);color:white}
+
+.tabs{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap}
+.tabs button{padding:8px 14px;border-radius:20px;border:none;background:rgba(255,255,255,0.08);color:white;cursor:pointer;transition:0.3s}
+.tabs button:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px) scale(1.08)}
+.active{background:#ff7b00 !important;color:black;box-shadow:0 0 12px rgba(255,123,0,0.7)}
+
+.container{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;padding:40px}
+
+/* cores por categoria */
+.card{background:#111;border-radius:14px;overflow:hidden;transition:0.3s;border:2px solid transparent}
+.card[data-cat="Halloween"]{border-color:#ff3c3c}
+.card[data-cat="Aquática"]{border-color:#00cfff}
+.card[data-cat="Natalina"]{border-color:#00ff9c}
+.card[data-cat="Taco"]{border-color:#ffd000}
+.card[data-cat="Easter"]{border-color:#ff7bff}
+
+.card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(0,0,0,0.6)}
+.card img{width:100%;height:150px;object-fit:cover}
+.card h3{padding:10px;font-size:14px}
+
+.tag{margin:0 10px 10px;font-size:12px;padding:4px 8px;border-radius:10px;display:inline-block}
+.tag.Halloween{background:#ff3c3c}
+.tag.Aquática{background:#00cfff}
+.tag.Natalina{background:#00ff9c;color:black}
+.tag.Taco{background:#ffd000;color:black}
+.tag.Easter{background:#ff7bff}
+
+.remove{background:#ff3c3c;border:none;width:100%;padding:8px;color:white;cursor:pointer}
+
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;justify-content:center;align-items:center;z-index:9999}
+.modal.active{display:flex}
+
+.modal-content{
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(12px);
+padding:25px;
+border-radius:16px;
+width:320px;
+display:flex;
+flex-direction:column;
+gap:12px;
+border:1px solid rgba(255,255,255,0.08);
+box-shadow:0 0 25px rgba(0,0,0,0.6);
+animation:fadeIn 0.25s ease;
 }
 
-.tabs{
-display:flex;justify-content:center;gap:10px;margin-top:25px;flex-wrap:wrap;
+.modal-content h3{
+text-align:center;
+color:#ff7b00;
+text-shadow:0 0 8px rgba(255,123,0,0.6);
 }
 
-.tabs button{
-padding:8px 14px;border-radius:20px;border:none;
+.modal-content input,
+.modal-content select{
 background:rgba(255,255,255,0.08);
-color:white;cursor:pointer;
+border:1px solid rgba(255,255,255,0.1);
+}
+
+.modal-content button{
+background:linear-gradient(45deg,#ff7b00,#ff9a00);
+color:black;
 transition:0.2s;
 }
 
-.tabs button:hover{
-background:rgba(255,255,255,0.2);
+.modal-content button:hover{
+transform:scale(1.05);
+box-shadow:0 0 12px rgba(255,123,0,0.7);
 }
 
-.active{
-background:#ff7b00 !important;
-color:black;
-}
-
-.container{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-gap:20px;padding:40px;
-}
-
-.card{
-background:#111;
-border-radius:12px;
-overflow:hidden;
-transition:0.25s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-}
-
-.card img{
-width:100%;height:150px;object-fit:cover;
-}
-
-.card h3{
-padding:10px;font-size:14px;
-}
-
-.remove{
-background:red;border:none;width:100%;padding:8px;color:white;cursor:pointer;
-}
-
-.modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-display:none;
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.modal.active{
-display:flex;
-}
-
-.modal-content{
-background:#111;
-padding:20px;border-radius:12px;width:300px;
-display:flex;flex-direction:column;gap:10px;
-}
-
-input,select,button{
-padding:10px;border:none;border-radius:8px;
-}
-
-button{cursor:pointer;background:#ff7b00;color:black}
+input,select,button{padding:10px;border:none;border-radius:8px}
+input,select{background:#1a1a1a;color:white}
+button{cursor:pointer;background:#ff7b00;color:black;font-weight:bold}
 
 </style>
 </head>
 
 <body>
+
+<div class="particles" id="particles"></div>
 
 <header>
 <div class="logo">🧠 BRAINROT</div>
@@ -147,10 +131,10 @@ button{cursor:pointer;background:#ff7b00;color:black}
 <div class="hero">
 <h1>Capture todos os <span>Brainrots</span></h1>
 <div class="count" id="count"></div>
+<div class="search"><input type="text" id="searchInput" placeholder="🔍 Buscar pet..."></div>
 </div>
 
 <div class="tabs" id="tabs"></div>
-
 <div class="container" id="petList"></div>
 
 <div class="modal" id="adminModal">
@@ -161,14 +145,10 @@ button{cursor:pointer;background:#ff7b00;color:black}
 <div id="panel" style="display:none;">
 <input id="name" placeholder="Nome">
 <input id="image" placeholder="Imagem URL">
-<select id="category">
-<option>Halloween</option>
-<option>Aquática</option>
-<option>Natalina</option>
-<option>Taco</option>
-<option>Easter</option>
-</select>
-<button onclick="addPet()">Adicionar</button>
+<select id="category"></select>
+<input id="newCategory" placeholder="Nova categoria">
+<button onclick="addCategory()">Adicionar Categoria</button>
+<button onclick="addPet()">Adicionar Pet</button>
 </div>
 <button onclick="toggleAdmin()">Fechar</button>
 </div>
@@ -176,20 +156,35 @@ button{cursor:pointer;background:#ff7b00;color:black}
 
 <script>
 const ADMIN_PASSWORD="1234";
-const categories=["Todos","Halloween","Aquática","Natalina","Taco","Easter"];
+let categories=JSON.parse(localStorage.getItem('categories'))||["Todos","Halloween","Aquática","Natalina","Taco","Easter"];
 let currentCategory="Todos";
 let pets=JSON.parse(localStorage.getItem('pets'))||[];
 
-function toggleAdmin(){
-let m=document.getElementById('adminModal');
-m.style.display=m.style.display==='flex'?'none':'flex';}
+function toggleAdmin(){document.getElementById('adminModal').classList.toggle('active');}
 
 function login(){
 if(document.getElementById('password').value===ADMIN_PASSWORD){
 document.getElementById('panel').style.display='block';
+loadCategorySelect();
 }else alert('Senha errada');}
 
-function save(){localStorage.setItem('pets',JSON.stringify(pets));}
+function save(){
+localStorage.setItem('pets',JSON.stringify(pets));
+localStorage.setItem('categories',JSON.stringify(categories));
+}
+
+function loadCategorySelect(){
+let select=document.getElementById('category');
+select.innerHTML='';
+categories.filter(c=>c!=="Todos").forEach(c=>{
+let o=document.createElement('option');o.innerText=c;select.appendChild(o);
+});}
+
+function addCategory(){
+let newCat=document.getElementById('newCategory').value;
+if(!newCat)return;
+categories.push(newCat);
+save();renderTabs();loadCategorySelect();}
 
 function renderTabs(){
 let tabs=document.getElementById('tabs');
@@ -205,17 +200,20 @@ tabs.appendChild(b);
 function render(){
 let list=document.getElementById('petList');
 list.innerHTML='';
-let filtered=pets.filter(p=>currentCategory==='Todos'||p.category===currentCategory);
+let search=document.getElementById('searchInput').value.toLowerCase();
+
+let filtered=pets.filter(p=>(currentCategory==='Todos'||p.category===currentCategory)&&p.name.toLowerCase().includes(search));
 
 document.getElementById('count').innerText=filtered.length+" pets disponíveis";
 
 filtered.forEach(p=>{
 let card=document.createElement('div');
 card.className='card';
+card.setAttribute('data-cat',p.category);
 card.innerHTML=`
 <img src="${p.image}">
 <h3>${p.name}</h3>
-<button class='remove' onclick='removePet(${pets.indexOf(p)})'>Remover</button>
+<div class='tag ${p.category}'>${p.category}</div>
 `;
 list.appendChild(card);
 });}
@@ -229,6 +227,18 @@ pets.push({name,image,category});
 save();render();}
 
 function removePet(i){pets.splice(i,1);save();render();}
+
+document.getElementById('searchInput').addEventListener('input',render);
+
+/* partículas */
+const container=document.getElementById('particles');
+for(let i=0;i<35;i++){
+let p=document.createElement('div');
+p.className='particle';
+p.style.left=Math.random()*100+'%';
+p.style.animationDuration=(6+Math.random()*6)+'s';
+container.appendChild(p);
+}
 
 renderTabs();render();
 </script>
