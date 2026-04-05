@@ -14,16 +14,50 @@ body{
 font-family:'Orbitron',sans-serif;
 color:white;
 background:url('https://tr.rbxcdn.com/180DAY-f85a85c43773ad29a38d707810e946df/768/432/Image/Webp/noFilter') center/cover no-repeat fixed;
+overflow-x:hidden;
 }
 
-/* overlay */
+/* overlay + animação */
 body::before{
 content:"";
 position:fixed;
 width:100%;
 height:100%;
-background:linear-gradient(to bottom,rgba(0,0,0,0.8),rgba(0,0,0,0.95));
+background:
+linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.95)),
+radial-gradient(circle at center, rgba(255,123,0,0.2), transparent 70%);
+animation:bgMove 10s infinite alternate;
 z-index:-1;
+}
+
+@keyframes bgMove{
+0%{transform:scale(1)}
+100%{transform:scale(1.05)}
+}
+
+/* partículas */
+.particles{
+position:fixed;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:-1;
+}
+
+.particle{
+position:absolute;
+width:4px;
+height:4px;
+background:#ff7b00;
+border-radius:50%;
+opacity:0.6;
+box-shadow:0 0 10px #ff7b00;
+animation:float linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
 }
 
 /* HEADER */
@@ -33,23 +67,22 @@ justify-content:space-between;
 padding:20px 30px;
 }
 
-/* BOTÃO ADMIN MELHORADO */
-.admin-btn{
-background:rgba(255,123,0,0.15);
-border:1px solid rgba(255,123,0,0.4);
-backdrop-filter:blur(10px);
+.logo{
 color:#ff7b00;
-padding:10px 14px;
-border-radius:12px;
-cursor:pointer;
-transition:0.3s;
+font-size:20px;
 }
 
-.admin-btn:hover{
+.admin-btn{
 background:#ff7b00;
-color:black;
-box-shadow:0 0 15px #ff7b00;
+border:none;
+padding:10px 14px;
+border-radius:10px;
+cursor:pointer;
 }
+
+/* HERO */
+.hero{text-align:center;padding:80px 20px}
+.hero h1 span{color:#ff7b00}
 
 /* GRID */
 .container{
@@ -61,8 +94,14 @@ padding:40px;
 
 .card{
 background:#111;
-border-radius:12px;
+border-radius:14px;
 overflow:hidden;
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #ff7b0030;
 }
 
 .card img{
@@ -74,91 +113,98 @@ object-fit:cover;
 /* MODAL */
 .modal{
 position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:rgba(0,0,0,0.9);
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
 display:none;
-justify-content:center;
-align-items:center;
 z-index:9999;
 }
 
 .modal.active{display:flex}
 
-/* LOGIN CARD CENTRAL */
-.login-box{
-width:280px;
-background:#111;
-padding:25px;
-border-radius:16px;
-text-align:center;
-box-shadow:0 0 25px #000;
-}
-
-.login-box h2{
-margin-bottom:15px;
-color:#ff7b00;
-}
-
-input{
-width:100%;
-padding:10px;
-margin-bottom:10px;
-border:none;
-border-radius:10px;
-background:#1a1a1a;
-color:white;
-}
-
-button{
-width:100%;
-padding:10px;
-border:none;
-border-radius:10px;
-background:#ff7b00;
-cursor:pointer;
-}
-
-/* DASHBOARD */
+/* dashboard */
 .dashboard{
-display:none;
-width:800px;
-height:500px;
+margin:auto;
+width:820px;
+height:520px;
+display:flex;
 background:#0d0d0d;
 border-radius:20px;
 overflow:hidden;
+position:relative;
 }
 
+/* CLOSE X */
+.close-btn{
+position:absolute;
+top:10px;
+right:15px;
+font-size:20px;
+cursor:pointer;
+color:#ff7b00;
+}
+
+/* SIDEBAR */
 .sidebar{
-width:180px;
+width:200px;
 background:#111;
-padding:15px;
-float:left;
-height:100%;
+padding:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
 }
 
 .sidebar button{
-display:block;
-width:100%;
-margin-bottom:10px;
 background:none;
 border:none;
 color:white;
+padding:10px;
 cursor:pointer;
+text-align:left;
+border-radius:8px;
 }
 
+.sidebar .active{
+background:#ff7b00;
+color:black;
+}
+
+/* CONTENT */
 .content{
-margin-left:180px;
+flex:1;
 padding:20px;
 }
 
+/* FORM */
+input,select{
+width:100%;
+padding:10px;
+border-radius:10px;
+border:none;
+background:#1a1a1a;
+color:white;
+margin-bottom:10px;
+}
+
+button.action{
+background:#ff7b00;
+border:none;
+padding:10px;
+border-radius:10px;
+cursor:pointer;
+}
+
+/* PREVIEW */
 .preview{
 height:120px;
 background:#111;
-margin-bottom:10px;
 display:flex;
 align-items:center;
 justify-content:center;
+border-radius:10px;
+overflow:hidden;
 }
 
 /* TOAST */
@@ -169,10 +215,11 @@ left:50%;
 transform:translateX(-50%);
 background:#ff7b00;
 color:black;
-padding:10px 20px;
-border-radius:20px;
+padding:12px 25px;
+border-radius:30px;
 opacity:0;
-transition:0.3s;
+transition:0.4s;
+z-index:99999;
 }
 .toast.show{opacity:1}
 
@@ -181,71 +228,67 @@ transition:0.3s;
 
 <body>
 
+<div class="particles" id="particles"></div>
+
 <header>
-<h2>🧠 Brainrot</h2>
+<div class="logo">🧠 BRAINROT</div>
 <button class="admin-btn" onclick="toggleAdmin()">⚙️</button>
 </header>
+
+<div class="hero">
+<h1>Capture todos os <span>Brainrots</span></h1>
+</div>
 
 <div class="container" id="petList"></div>
 
 <!-- ADMIN -->
 <div class="modal" id="adminModal">
+<div class="dashboard">
 
-<!-- LOGIN -->
-<div class="login-box" id="loginBox">
-<h2>Acesso Administrador</h2>
-<input type="password" id="password" placeholder="Senha">
-<button onclick="login()">Acessar</button>
-</div>
+<div class="close-btn" onclick="toggleAdmin()">✖</div>
 
-<!-- DASHBOARD -->
-<div class="dashboard" id="dashboard">
-
-<div class="sidebar">
-<button onclick="openTab('pets')">Pets</button>
-<button onclick="openTab('cats')">Categorias</button>
-<button onclick="toggleAdmin()">Fechar</button>
+<div class="sidebar" id="sidebar" style="display:none;">
+<button onclick="openTab('petsTab')" class="active">Pets</button>
+<button onclick="openTab('catTab')">Categorias</button>
 </div>
 
 <div class="content">
 
-<div id="pets">
+<!-- LOGIN -->
+<div id="loginTab">
+<input type="password" id="password" placeholder="Senha">
+<button class="action" onclick="login()">Entrar</button>
+</div>
+
+<!-- PETS -->
+<div id="petsTab" style="display:none">
 <input id="name" placeholder="Nome">
-<input id="image" placeholder="URL">
+<input id="imageURL" placeholder="URL da imagem" oninput="previewURL()">
 <input type="file" onchange="uploadImage(event)">
 <div class="preview" id="preview">Preview</div>
-<button onclick="addPet()">Adicionar</button>
+<select id="category"></select>
+<button class="action" onclick="addPet()">Adicionar</button>
 </div>
 
-<div id="cats" style="display:none">
-<input id="newCat" placeholder="Nova categoria">
-<button onclick="addCategory()">Adicionar</button>
+<!-- CATEGORIAS -->
+<div id="catTab" style="display:none">
+<input id="newCategory" placeholder="Nova categoria">
+<button class="action" onclick="addCategory()">Adicionar</button>
 </div>
 
 </div>
 </div>
-
 </div>
 
 <div class="toast" id="toast"></div>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
-
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDcc_rXycOtgH9P3Hn5PgOWHP6sLw2_84s",
-  authDomain: "central-index.firebaseapp.com",
-  projectId: "central-index",
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
 const ADMIN_PASSWORD="fb140715";
+let isLogged=false;
 
-/* UI */
+let pets=[];
+let categories=["Todos"];
+
 function showToast(msg){
 toast.innerText=msg;
 toast.classList.add('show');
@@ -256,40 +299,28 @@ function toggleAdmin(){
 adminModal.classList.toggle('active');
 }
 
-/* LOGIN */
 function login(){
 if(password.value===ADMIN_PASSWORD){
-loginBox.style.display='none';
-dashboard.style.display='block';
-showToast("Acesso liberado");
+isLogged=true;
+showToast("Logado com sucesso");
+loginTab.style.display='none';
+sidebar.style.display='flex';
+openTab('petsTab');
 }else showToast("Senha incorreta");
 }
 
-/* FIREBASE ADD */
-function addPet(){
-let nameVal=name.value;
-let img=image.value;
+function openTab(id){
+document.querySelectorAll('.content > div').forEach(d=>d.style.display='none');
+document.getElementById(id).style.display='block';
 
-if(!nameVal||!img)return showToast("Preencha tudo");
-
-db.collection("pets").add({name:nameVal,image:img});
-
-showToast("Salvo online 🚀");
+document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active'));
+event.target.classList.add('active');
 }
 
-/* LOAD */
-db.collection("pets").onSnapshot(snapshot=>{
-petList.innerHTML="";
-snapshot.forEach(doc=>{
-let p=doc.data();
-let card=document.createElement('div');
-card.className='card';
-card.innerHTML=`<img src="${p.image}"><h3>${p.name}</h3>`;
-petList.appendChild(card);
-});
-});
+function previewURL(){
+preview.innerHTML=`<img src="${imageURL.value}">`;
+}
 
-/* upload */
 function uploadImage(e){
 let file=e.target.files[0];
 let reader=new FileReader();
@@ -297,11 +328,38 @@ reader.onload=()=>preview.innerHTML=`<img src="${reader.result}">`;
 reader.readAsDataURL(file);
 }
 
-/* tabs */
-function openTab(tab){
-document.querySelectorAll('.content > div').forEach(d=>d.style.display='none');
-document.getElementById(tab).style.display='block';
+function addPet(){
+if(!name.value)return showToast("Preencha o nome");
+pets.push({name:name.value,image:imageURL.value});
+render();
+showToast("Adicionado!");
 }
+
+function addCategory(){
+categories.push(newCategory.value);
+showToast("Categoria criada");
+}
+
+function render(){
+petList.innerHTML='';
+pets.forEach(p=>{
+let card=document.createElement('div');
+card.className='card';
+card.innerHTML=`<img src="${p.image}"><h3>${p.name}</h3>`;
+petList.appendChild(card);
+});
+}
+
+/* partículas */
+for(let i=0;i<40;i++){
+let p=document.createElement('div');
+p.className='particle';
+p.style.left=Math.random()*100+'%';
+p.style.animationDuration=(6+Math.random()*6)+'s';
+particles.appendChild(p);
+}
+
+render();
 </script>
 
 </body>
